@@ -74,7 +74,14 @@
 
 ;; (package! dbt-mode :recipe (:host github :repo "CyberShadow/dbt-mode"))
 
-(package! agent-shell :recipe (:host github :repo "xenodium/agent-shell" :files ("*.el")))
+;; (package! agent-shell :recipe (:host github :repo "xenodium/agent-shell" :files ("*.el")))
+(package! shell-maker)
+(package! acp)
+(package! agent-shell)
+(package! knockknock :recipe (:host github :repo "konrad1977/knockknock" :files ("*.el")))
+(package! agent-shell-knockknock :recipe (:host github :repo "xenodium/agent-shell-knockknock" :files ("*.el")))
 (package! agent-shell-sidebar :recipe (:host github :repo "cmacrae/agent-shell-sidebar" :files ("*.el")))
 (package! agent-shell-attention :recipe (:host github :repo "ultronozm/agent-shell-attention.el" :files ("*.el")))
 
+
+(package! uv-mode)

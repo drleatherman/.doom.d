@@ -468,11 +468,18 @@
 (global-set-key (kbd "M-<up>") 'move-region-up)
 (global-set-key (kbd "M-<down>") 'move-region-down)
 
+(require 'acp)
+(require 'agent-shell)
 
+
+(setq agent-shell-anthropic-claude-environment
+      (agent-shell-make-environment-variables
+       :load-env "~/.env.claude"))
+(setq agent-shell-anthropic-authentication
+      (agent-shell-anthropic-make-authentication :login t))
 (use-package agent-shell-attention
   :after agent-shell
   :demand
-  :bind (("C-z a" . agent-shell-attention-jump))
   :config
   (require 'knockknock)
   (setopt agent-shell-attention-notify-function
@@ -486,3 +493,14 @@
           #'agent-shell-attention-render-active)
   (setopt agent-shell-attention-indicator-location 'global-mode-string)
   (agent-shell-attention-mode))
+
+
+(map! :leader
+      :desc "Git"
+      (:prefix-map ("o" . "open")
+       :desc "Agent-Shell" "c" #'agent-shell-attention-jump))
+
+(use-package uv-mode
+  :hook (python-mode . uv-mode-auto-activate-hook))
+
+(setq org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("⦿" . "⦿") ("▹" . "▿") ("▸" . "▾")))

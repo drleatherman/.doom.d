@@ -10,14 +10,24 @@
 
 (setenv "LSP_USE_PLISTS" "1")
 
+;;; * Extra file extensions to support
+
+(add-to-list 'auto-mode-alist '("/LICENSE\\'" . text-mode))
+(add-to-list 'auto-mode-alist '("rc\\'" . conf-mode) 'append)
+
+;; Support for Doom dotfiles
+(add-to-list 'auto-mode-alist '("/\\.doom\\(?:modules?\\|profiles?\\)?\\'" . lisp-data-mode))
+
+
 (doom! :input
        ;;chinese
        ;;japanese
 
        :completion
-       (company
-        +tng
-        +childframe)           ; the ultimate code completion backend
+       (corfu +orderless)
+       ;; (company
+       ;; +tng
+       ;; +childframe)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -29,7 +39,7 @@
        :ui
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
+       dashboard    ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;; fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
@@ -58,8 +68,8 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       (spell
-        )             ; tasing you for misspelling mispelling
+       (spell +flyspell
+              )             ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :editor
@@ -74,6 +84,7 @@
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
+       (whitespace +guess +trim)
        snippets          ; my elves. They type so I don't have to
 
        :emacs
@@ -88,7 +99,8 @@
        :term
        ;; eshell            ; a consistent, cross-platform shell (WIP)
        ;; term              ; terminals in Emacs
-       vterm             ; another terminals in Emacs
+       ;; vterm             ; another terminals in Emacs
+       ghostel
 
        :tools
        ;;ansible
