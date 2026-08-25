@@ -69,8 +69,12 @@
 (package! org-modern)
 
 (package! emacs-emojify)
+(package! exec-path-from-shell)
 
 
-(package! copilot-chat :recipe(:host github :repo "chep/copilot-chat.el" :files ("*.el")))
 ;; (package! dbt-mode :recipe (:host github :repo "CyberShadow/dbt-mode"))
-(package! gptel)
+
+(package! agent-shell :recipe (:host github :repo "xenodium/agent-shell" :files ("*.el")))
+(package! agent-shell-sidebar :recipe (:host github :repo "cmacrae/agent-shell-sidebar" :files ("*.el")))
+(package! agent-shell-attention :recipe (:host github :repo "ultronozm/agent-shell-attention.el" :files ("*.el")))
+

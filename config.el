@@ -239,24 +239,11 @@
   )
 
 (setq tab-width 4)
-(use-package! nvm
-  :config
-  ;; Optionally set a default node version
-  (nvm-use "21"))
 
 
 (use-package! lsp-mode)
-(setq magit-git-executable "/usr/local/bin/git")
+(setq magit-git-executable "/opt/homebrew/bin/git")
 
-(setq dap-auto-configure-features '(locals tooltip repl))
-(dap-auto-configure-mode)
-(after! dap-mode
-  ;; if you installed debugpy, you need to set this
-  ;; https://github.com/emacs-lsp/dap-mode/issues/306
-  (setq dap-python-debugger 'debugpy))
-
-(add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra)))
 (after! lsp-ui
   (lsp-ui-doc-enable t)
   (lsp-ui-peek-enable t)
@@ -481,27 +468,21 @@
 (global-set-key (kbd "M-<up>") 'move-region-up)
 (global-set-key (kbd "M-<down>") 'move-region-down)
 
-;; Github Models offers an OpenAI compatible API
-;; OPTIONAL configuration
-(setq gptel-model  'gpt-4o
-      gptel-backend
-      (gptel-make-openai "Github Models" ;Any name you want
-        :host "models.inference.ai.azure.com"
-        :endpoint "/chat/completions?api-version=2024-05-01-preview"
-        :stream t
-        :key (getenv "GITHUB_API_KEY")
-        :models '(gpt-4o)))
 
-
-(map!
- :leader
- (:prefix-map ("o g" . "gptel")
-  :desc "gptel" "g" #'gptel
-  :desc "rewrite" "r" #'gptel-rewrite))
-
-(with-eval-after-load 'gptel
-  (define-key gptel-mode-map (kbd "C-c a") #'gptel-add-file)
-  (define-key gptel-mode-map (kbd "C-c b") #'gptel-add)
-  (define-key gptel-mode-map (kbd "C-c ?") #'gptel-menu))
-;; this is a test
-;; foo bar. What is the name of this?
+(use-package agent-shell-attention
+  :after agent-shell
+  :demand
+  :bind (("C-z a" . agent-shell-attention-jump))
+  :config
+  (require 'knockknock)
+  (setopt agent-shell-attention-notify-function
+          (lambda (_buffer title body)
+            (knockknock-notify
+             :title title
+             :message body
+             :icon "nf-cod-bot"
+             :duration 5)))
+  (setopt agent-shell-attention-render-function
+          #'agent-shell-attention-render-active)
+  (setopt agent-shell-attention-indicator-location 'global-mode-string)
+  (agent-shell-attention-mode))
